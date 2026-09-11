@@ -17,14 +17,17 @@
         </Style>
     </ContentPage.Resources>
 
-    <Grid VerticalOptions="Center" HorizontalOptions="Center" Padding="20">
+    <ScrollView>
+        <Grid VerticalOptions="Center" HorizontalOptions="Fill" Padding="16">
 
-        <Border Stroke="#3A3A3A"
-                StrokeThickness="1"
-                StrokeShape="RoundRectangle 6"
-                BackgroundColor="#0A0A0A"
-                WidthRequest="600"
-                Padding="24">
+            <Border x:Name="RootBorder"
+                    Stroke="#3A3A3A"
+                    StrokeThickness="1"
+                    StrokeShape="RoundRectangle 6"
+                    BackgroundColor="#0A0A0A"
+                    HorizontalOptions="Center"
+                    MaximumWidthRequest="600"
+                    Padding="16">
 
             <Grid>
 
@@ -32,20 +35,26 @@
                 <VerticalStackLayout x:Name="StartPanel" Spacing="6" IsVisible="True">
 
                     <Grid HorizontalOptions="Center" Margin="0,10,0,0">
-                        <Label Text="TIME CTRL"
+                        <Label x:Name="TitleShadowLabel"
+                               Text="TIME CTRL"
                                FontFamily="Consolas"
                                FontAttributes="Bold"
                                FontSize="52"
                                CharacterSpacing="4"
                                TextColor="#0B3D22"
                                TranslationX="4"
-                               TranslationY="4" />
-                        <Label Text="TIME CTRL"
+                               TranslationY="4"
+                               HorizontalTextAlignment="Center"
+                               LineBreakMode="TailTruncation" />
+                        <Label x:Name="TitleForegroundLabel"
+                               Text="TIME CTRL"
                                FontFamily="Consolas"
                                FontAttributes="Bold"
                                FontSize="52"
                                CharacterSpacing="4"
-                               TextColor="#00E676">
+                               TextColor="#00E676"
+                               HorizontalTextAlignment="Center"
+                               LineBreakMode="TailTruncation">
                             <Label.Shadow>
                                 <Shadow Brush="#00E676" Offset="0,0" Radius="14" Opacity="0.55" />
                             </Label.Shadow>
@@ -98,19 +107,22 @@
                     <Label Text="Enter your start time (HH:MM):"
                            Style="{StaticResource TuiTextStyle}" />
 
-                    <HorizontalStackLayout Spacing="8">
-                        <Label Text="&gt;"
-                               Style="{StaticResource TuiTextStyle}" />
-                        <Entry x:Name="StartTimeEntry"
+                    <Grid ColumnDefinitions="Auto,*" ColumnSpacing="8">
+                        <Label Grid.Column="0"
+                               Text="&gt;"
+                               Style="{StaticResource TuiTextStyle}"
+                               VerticalOptions="Center" />
+                        <Entry Grid.Column="1"
+                               x:Name="StartTimeEntry"
                                Placeholder="HH:MM (e.g. 08:00)"
                                PlaceholderColor="#6E6E6E"
                                TextColor="#EDEDED"
                                FontFamily="Consolas"
                                FontSize="18"
-                               WidthRequest="360"
+                               HorizontalOptions="Fill"
                                Keyboard="Numeric"
                                Completed="OnStartTimeEntryCompleted" />
-                    </HorizontalStackLayout>
+                    </Grid>
 
                     <Label x:Name="ErrorLabel"
                            Text="Invalid time. Use HH:MM (00:00 - 23:59)."
@@ -193,7 +205,8 @@
                 </VerticalStackLayout>
 
             </Grid>
-        </Border>
-    </Grid>
+            </Border>
+        </Grid>
+    </ScrollView>
 
 </ContentPage>

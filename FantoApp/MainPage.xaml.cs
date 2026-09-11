@@ -10,9 +10,60 @@ namespace FantoApp
         private static readonly TimeSpan NormalWorkDuration = new(8, 48, 0);
         private static readonly TimeSpan MaximumWorkDuration = TimeSpan.FromHours(10);
 
+        private double _lastAppliedWidth = -1;
+
         public MainPage()
         {
             InitializeComponent();
+        }
+
+        protected override void OnSizeAllocated(double width, double height)
+        {
+            base.OnSizeAllocated(width, height);
+            ApplyResponsiveLayout(width);
+        }
+
+        private void ApplyResponsiveLayout(double width)
+        {
+            if (width <= 0 || Math.Abs(width - _lastAppliedWidth) < 1)
+                return;
+
+            _lastAppliedWidth = width;
+
+            // Scale the border padding and the title font size to fit small phone screens.
+            double titleFontSize;
+            double titleSpacing;
+            double borderPadding;
+
+            switch (width)
+            {
+                case < 360:
+                    titleFontSize = 26;
+                    titleSpacing = 1;
+                    borderPadding = 10;
+                    break;
+                case < 420:
+                    titleFontSize = 32;
+                    titleSpacing = 1.5;
+                    borderPadding = 12;
+                    break;
+                case < 600:
+                    titleFontSize = 40;
+                    titleSpacing = 2.5;
+                    borderPadding = 16;
+                    break;
+                default:
+                    titleFontSize = 52;
+                    titleSpacing = 4;
+                    borderPadding = 24;
+                    break;
+            }
+
+            TitleShadowLabel.FontSize = titleFontSize;
+            TitleShadowLabel.CharacterSpacing = titleSpacing;
+            TitleForegroundLabel.FontSize = titleFontSize;
+            TitleForegroundLabel.CharacterSpacing = titleSpacing;
+            RootBorder.Padding = borderPadding;
         }
 
         private void OnStartTapped(object? sender, TappedEventArgs e)
