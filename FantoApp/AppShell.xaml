@@ -7,7 +7,8 @@
     Title="TIME CTRL">
 
     <ShellContent
-        Title="Home"
+        Title=""
+        Shell.NavBarIsVisible="False"
         ContentTemplate="{DataTemplate local:MainPage}"
         Route="MainPage" />
 
