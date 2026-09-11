@@ -86,6 +86,36 @@ namespace FantoApp
             CalculateAndShowResults();
         }
 
+        private bool _isFormattingStartTime;
+
+        private void OnStartTimeEntryTextChanged(object? sender, TextChangedEventArgs e)
+        {
+            if (_isFormattingStartTime)
+                return;
+
+            var formatted = FormatAsTimeInput(e.NewTextValue ?? string.Empty);
+
+            if (formatted == e.NewTextValue)
+                return;
+
+            _isFormattingStartTime = true;
+            StartTimeEntry.Text = formatted;
+            StartTimeEntry.CursorPosition = formatted.Length;
+            _isFormattingStartTime = false;
+        }
+
+        private static string FormatAsTimeInput(string text)
+        {
+            var digits = new string(text.Where(char.IsDigit).ToArray());
+
+            if (digits.Length > 4)
+                digits = digits[..4];
+
+            return digits.Length <= 2
+                ? digits
+                : $"{digits[..2]}:{digits[2..]}";
+        }
+
         private void GoToStartScreen()
         {
             StartPanel.IsVisible = true;

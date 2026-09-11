@@ -121,6 +121,8 @@
                                FontSize="18"
                                HorizontalOptions="Fill"
                                Keyboard="Numeric"
+                               MaxLength="5"
+                               TextChanged="OnStartTimeEntryTextChanged"
                                Completed="OnStartTimeEntryCompleted" />
                     </Grid>
 
