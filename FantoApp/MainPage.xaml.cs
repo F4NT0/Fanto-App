@@ -90,7 +90,7 @@ namespace FantoApp
 
         private void OnStartTimeEntryTextChanged(object? sender, TextChangedEventArgs e)
         {
-            if (_isFormattingStartTime)
+            if (_isFormattingStartTime || sender is not Entry entry)
                 return;
 
             var formatted = FormatAsTimeInput(e.NewTextValue ?? string.Empty);
@@ -98,10 +98,15 @@ namespace FantoApp
             if (formatted == e.NewTextValue)
                 return;
 
-            _isFormattingStartTime = true;
-            StartTimeEntry.Text = formatted;
-            StartTimeEntry.CursorPosition = formatted.Length;
-            _isFormattingStartTime = false;
+            // Deferring the mutation avoids re-entering the native text-changed
+            // callback synchronously, which can crash on Android when the
+            // Text/CursorPosition are updated from within the same callback.
+            MainThread.BeginInvokeOnMainThread(() =>
+            {
+                _isFormattingStartTime = true;
+                entry.Text = formatted;
+                _isFormattingStartTime = false;
+            });
         }
 
         private static string FormatAsTimeInput(string text)
