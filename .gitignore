@@ -1,0 +1,20 @@
+## .NET / Visual Studio ignores
+[Bb]in/
+[Oo]bj/
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+## MAUI / mobile build artifacts
+*.apk
+*.aab
+*.ipa
+*.appx
+*.appxbundle
+*.msix
+
+## OS files
+.DS_Store
+Thumbs.db
