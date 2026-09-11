@@ -91,6 +91,23 @@
                            FontFamily="Consolas"
                            FontSize="14"
                            TextColor="#6E6E6E" />
+
+                    <HorizontalStackLayout Spacing="6" HorizontalOptions="Center" Margin="0,20,0,0">
+                        <Label Text="Created by"
+                               FontFamily="Consolas"
+                               FontSize="13"
+                               TextColor="#6E6E6E" />
+                        <Label Text="Gabriel Stundner"
+                               FontFamily="Consolas"
+                               FontAttributes="Bold"
+                               FontSize="13"
+                               TextColor="#E0A25A"
+                               TextDecorations="Underline">
+                            <Label.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="OnAuthorLinkTapped" />
+                            </Label.GestureRecognizers>
+                        </Label>
+                    </HorizontalStackLayout>
                 </VerticalStackLayout>
 
                 <!--  Entry screen  -->

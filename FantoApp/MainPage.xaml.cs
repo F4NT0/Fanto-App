@@ -64,9 +64,23 @@
             RootBorder.Padding = borderPadding;
         }
 
+        private const string AuthorPortfolioUrl = "https://f4nt0.github.io/fanto-tui-portfolio/";
+
         private void OnStartTapped(object? sender, TappedEventArgs e)
         {
             GoToEntryScreen();
+        }
+
+        private async void OnAuthorLinkTapped(object? sender, TappedEventArgs e)
+        {
+            try
+            {
+                await Launcher.Default.OpenAsync(AuthorPortfolioUrl);
+            }
+            catch
+            {
+                // Ignore navigation failures (e.g. no browser available).
+            }
         }
 
         private void OnBackToStartTapped(object? sender, TappedEventArgs e)
