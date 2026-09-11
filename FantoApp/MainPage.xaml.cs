@@ -1,6 +1,4 @@
-﻿using System.Globalization;
-
-namespace FantoApp
+﻿namespace FantoApp
 {
     public partial class MainPage : ContentPage
     {
@@ -86,41 +84,6 @@ namespace FantoApp
             CalculateAndShowResults();
         }
 
-        private bool _isFormattingStartTime;
-
-        private void OnStartTimeEntryTextChanged(object? sender, TextChangedEventArgs e)
-        {
-            if (_isFormattingStartTime || sender is not Entry entry)
-                return;
-
-            var formatted = FormatAsTimeInput(e.NewTextValue ?? string.Empty);
-
-            if (formatted == e.NewTextValue)
-                return;
-
-            // Deferring the mutation avoids re-entering the native text-changed
-            // callback synchronously, which can crash on Android when the
-            // Text/CursorPosition are updated from within the same callback.
-            MainThread.BeginInvokeOnMainThread(() =>
-            {
-                _isFormattingStartTime = true;
-                entry.Text = formatted;
-                _isFormattingStartTime = false;
-            });
-        }
-
-        private static string FormatAsTimeInput(string text)
-        {
-            var digits = new string(text.Where(char.IsDigit).ToArray());
-
-            if (digits.Length > 4)
-                digits = digits[..4];
-
-            return digits.Length <= 2
-                ? digits
-                : $"{digits[..2]}:{digits[2..]}";
-        }
-
         private void GoToStartScreen()
         {
             StartPanel.IsVisible = true;
@@ -171,9 +134,23 @@ namespace FantoApp
 
         private static bool TryParseTime(string input, out TimeSpan time)
         {
-            return TimeSpan.TryParseExact(input, @"hh\:mm", CultureInfo.InvariantCulture, out time)
-                   && time >= TimeSpan.Zero
-                   && time < TimeSpan.FromDays(1);
+            time = TimeSpan.Zero;
+
+            // Accept both "HH:MM" and raw 4-digit input (e.g. "0632" -> 06:32),
+            // since mobile numeric keyboards don't have a ":" key.
+            var digits = new string(input.Where(char.IsDigit).ToArray());
+
+            if (digits.Length != 4)
+                return false;
+
+            if (!int.TryParse(digits[..2], out var hours) || !int.TryParse(digits[2..], out var minutes))
+                return false;
+
+            if (hours is < 0 or > 23 || minutes is < 0 or > 59)
+                return false;
+
+            time = new TimeSpan(hours, minutes, 0);
+            return true;
         }
 
         private static string FormatTime(TimeSpan time)
