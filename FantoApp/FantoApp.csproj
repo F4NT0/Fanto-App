@@ -28,7 +28,7 @@
 		<MauiXamlInflator>SourceGen</MauiXamlInflator>
 
 		<!-- Display name -->
-		<ApplicationTitle>TimeControl</ApplicationTitle>
+		<ApplicationTitle>FantoDocs</ApplicationTitle>
 
 		<!-- App Identifier -->
 		<ApplicationId>com.companyname.fantoapp</ApplicationId>
